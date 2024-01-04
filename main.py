@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
 def load_model():
     model = torch.load('yolov7-w6-pose.pt', map_location=device)['model']
@@ -59,7 +59,7 @@ def pose_estimation_video(path, filename):
     cap = cv2.VideoCapture(path)
     # VideoWriter for saving the video
     fourcc = cv2.VideoWriter_fourcc(*'MP4V')
-    out_path = f'videos_pose_estimation/POSEESTIMATION_{filename}'
+    out_path = f'videos_pose_estimation/POSEESTIMATION_{filename.split(".")[0]}.mp4'
     out = cv2.VideoWriter(out_path, fourcc, cap.get(cv2.CAP_PROP_FPS), (int(cap.get(3)), int(cap.get(4))))
     frames_processed = 0
     frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -72,7 +72,7 @@ def pose_estimation_video(path, filename):
             frame = cv2.resize(frame, (int(cap.get(3)), int(cap.get(4))))
             out.write(frame)
             frames_processed += 1
-            print((frames_processed/frames)*100)
+            print(f"{frames_processed}/{frames}")
             process_bar.progress((frames_processed/frames), str(round((frames_processed/frames)*100, 3)) + "% processed")
         else:
             # display video
@@ -80,10 +80,13 @@ def pose_estimation_video(path, filename):
     process_bar.empty()
     cap.release()
     out.release()
-    st.success(f"Video processed! You can download the video from this webpage")
-    os.system(f"ffmpeg -i {out_path} -vcodec libx264 -movflags +faststart -acodec aac {out_path.split('.')[0]}_encoded.mp4")
+    success = st.success("Video successfully processed! Please for it to be displayed.")
+    os.system(f"ffmpeg -i {out_path} -y -vcodec libx264 -movflags +faststart -acodec aac {out_path.split('.')[0]}_encoded.mp4")
+    success.empty()
+    st.success("Video processed! You can download the video from this webpage")
+    os.remove(out_path)
     st.video(open(f"{out_path.split('.')[0]}_encoded.mp4", 'rb').read())
-
+    os.remove(f"{out_path.split('.')[0]}_encoded.mp4")
 
 
 video = st.file_uploader("Upload your video file here that you want to use pose estimation on", 
