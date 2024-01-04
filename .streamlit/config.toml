@@ -1,0 +1,10 @@
+[server]
+port = 7070
+enableCORS = false
+enableXsrfProtection = false
+maxUploadSize = 5000
+headless = true
+
+[browser]
+gatherUsageStats = false
+serverPort = 7070

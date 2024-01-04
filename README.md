@@ -1,10 +1,10 @@
-> Guide for pose estimation for NYU Abhu Dhabi 2024
+> Guide for pose estimation for NYU Abhu Dhabi 2024 with Dr. Moore
 
 # Live webcam pose estimation
 
 >This will use your webcam to perform single person pose estimation at real time. Follow the steps given below for your operating system:
 
-## Windows 10/11 CHANGE THIS
+## Windows 10/11
 1. Click [here](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe) to download `Docker Desktop` into your ***Downloads*** folder
 1. Press <kbd>Win</kbd>+<kbd>R</kbd>
 1. Type `powershell` and press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Enter</kbd>
@@ -38,6 +38,7 @@
 
 1. (Optional): Change the `type` to `thunder` for more accurate pose estimation
 
+1. Close the `powershell` window to stop the software
 ### Removing the software
 1. Press <kbd>Win</kbd>+<kbd>R</kbd>
 1. Type `powershell` and press enter
@@ -51,7 +52,7 @@
 1. Open the `terminal` app. For the following steps, enter password when prompted.
 1. Execute the following commands by pasting them into terminal and pressing enter:
 
-    a. ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"```
+    a. ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"``` (this will install Homebrew)
 
     b. ```(echo; echo 'eval "$(/usr/local/bin/brew shellenv)"') >> /Users/$USER/.zprofile```
 
@@ -74,21 +75,71 @@
 
 1. (Optional): Change the `type` to `thunder` for more accurate pose estimation
 
+1. Close the `terminal` window to stop the software
+
 ### Removing the software
+> It is reccomended to not remove the software yet so you can run pose estimation in video files (scroll down below)
 1. Execute the following commands in `terminal`:
 
     a. ```docker rm -f $(docker ps -a -q --filter ancestor=archav2you/track)```
 
-    b. ```docker rm -f $(docker ps -a -q --filter ancestor=archav2you/track)```
+    b. ```docker image rm archav2you/track```
 1. Uninstall the `Docker` app
-1. Uninstall `homebrew` by running the following command:
+1. Uninstall `homebrew` by executing the following command:
 
     ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"```
+1. Unintsall Xcode by executing the following command:
+
+    ```sudo rm -r /Library/Developer/CommandLineTools```
 
 # Video upload pose estimation
 
 >This will use a video you specify to perform multi person pose estimation. Follow the steps given below for your operating system:
 
 ## Windows 10/11
+1. Press <kbd>Win</kbd>+<kbd>R</kbd>
+1. Type `powershell` and press enter
+1. Make sure `Docker` is installed from the steps above
+1. Make sure `Docker Desktop` is running by opening the `Docker` app
+1. Execute the following commands in the `terminal`:
+
+    a. ```cd Downloads```
+
+    b. ```git pull archav2you/video-track```
+
+    c. ```docker run -p 7070:7070 archav2you/video-track```
+
+1. Go to [localhost:7070](localhost:7070) in your web browser.
+
+1. Upload the video, when done the video will be played on the webpage and can be downloaded
+
+
+### Removing the software
+1. Execute the following commands in `powershell`:
+
+    a. ```docker rm -f $(docker ps -a -q --filter ancestor=archav2you/video-track)```
+
+    b. ```docker image rm archav2you/video-track```
 
 ## MacOS
+1. Open `terminal`
+1. Make sure `Docker` is installed from the steps above
+1. Make sure `Docker` is running by opening the `Docker` app
+1. Execute the following commands:
+
+    a. ```cd Downloads```
+
+    b. ```git pull archav2you/video-track```
+
+    c. ```docker run -p 7070:7070 archav2you/video-track```
+
+1. Go to [localhost:7070](localhost:7070) in your web browser.
+
+1. Upload the video, when done the video will be played on the webpage and can be downloaded
+
+### Removing the software
+1. Execute the following commands in `terminal`:
+
+    a. ```docker rm -f $(docker ps -a -q --filter ancestor=archav2you/video-track)```
+
+    b. ```docker image rm archav2you/video-track```
