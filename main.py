@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 
-device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def load_model():
     model = torch.load('yolov7-w6-pose.pt', map_location=device)['model']
@@ -20,9 +20,6 @@ def load_model():
     if torch.cuda.is_available():
         model.half().to(device)
 
-    elif torch.backends.mps.is_available():
-        model.to(device)
-        
     return model
 
 model = load_model()
