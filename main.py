@@ -87,6 +87,7 @@ def pose_estimation_video(path, filename):
     os.remove(out_path)
     st.video(open(f"{out_path.split('.')[0]}_encoded.mp4", 'rb').read())
     os.remove(f"{out_path.split('.')[0]}_encoded.mp4")
+    os.remove(path)
 
 
 video = st.file_uploader("Upload your video file here that you want to use pose estimation on", 
